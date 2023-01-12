@@ -1,3 +1,3 @@
-# Correlogram
+# Creating Correlograms (with support for bias corrected distance correlations)
 
 Details coming...
