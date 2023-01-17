@@ -15,3 +15,5 @@ Here is another example for a rectengular matrix. Here, we pull out the histogra
 <img align="center" width="1000" height="700" src="https://i.imgur.com/bSebixu.png">
 <br/>
 <br/>
+
+See main.m for some examples of usage (note, this code is still in rough shape but may be helpful) 
