@@ -1,12 +1,8 @@
-%% Example for using correlogram...note we will use the PDC toolbox
+%% Example for using correlogram...note we will use the PDC toolbox (https://github.com/alexteghipco/partialDistanceCorrelation)
 
 %% Load in data
 data = readtable('LockedCerebellumData_healthy.csv');
-% dataCon = data(:,[3 4 5 19 20]); 
-% dataCorr = data(:,[75 76 77 107 108 109]);
 data2 = readtable('LockedCerebellumData_stroke.csv');
-% dataCon2 = data(:,[3 4 5 19 20]); 
-% dataCorr2 = data(:,[75 76 77 107 108 109]);
 
 data = data(:,[3 4 5 19 20 75 76 77 107 108 109]);
 data2 = data2(:,[3 4 5 19 20 75 76 77 107 108 109]);
@@ -86,7 +82,7 @@ end
 tmpTxt = reshape(txt,[size(data,2),size(data,2)]);
 tmpTxtClr = reshape(txtClr,[size(data,2),size(data,2)]);
 
-[t,parts,parts2,h,h2] = correlogram(data,data2,'clrs',[c1; c2; c3],'histLine',true,'txt',tmpTxt,'txtClr',tmpTxtClr,'saveFig',false,'lblsX',data2.Properties.VariableNames(1:end),'lblsY',[],...
+[t,parts,parts2,h,h2] = correlogram(data,data2,'clrs',[c1; c2; c3],'histLine',true,'txt',tmpTxt,'txtClr',tmpTxtClr,'saveFig',false,'lblsX',data2.Properties.VariableNames,'lblsY',[],...
     'newFig',false,'scatLinWidth',2,'markSz',150,'bounds',{'functional','on'},...
     'markerAlpha',0.4,'shadedAlpha',0.9,'markFill',true,'trendLineWidth',4,...
     'box',true,'fontSizeNames',8,'fontSize',8);
@@ -164,14 +160,8 @@ end
 [t,parts,parts2,h,h2] = correlogram(dataCleanRes,dataCleanRes2,[c1; c2; c3],true,tmpTxt,tmpTxtClr,true,data2.Properties.VariableNames(6:end));
 
 %% now do the same with other vars
-% GMV total, left right sym, wmv total, left, right sym CORR WITH wabtot,
-% wabresp,wabcomp,wabrep
 data = readtable('LockedCerebellumData_healthy.csv');
-% dataCon = data(:,[3 4 5 19 20]); 
-% dataCorr = data(:,[75 76 77 107 108 109]);
 data2 = readtable('LockedCerebellumData_stroke.csv');
-% dataCon2 = data(:,[3 4 5 19 20]); 
-% dataCorr2 = data(:,[75 76 77 107 108 109]);
 
 data = data(:,[3 4 5 19 20 75 76 77 107 108 109 78 110 21 22 23 24 25]);
 data2 = data2(:,[3 4 5 19 20 75 76 77 107 108 109 78 110 21 22 23 24 25]);
@@ -181,14 +171,9 @@ data.daysPostStroke(:,1) = 0;
 data.LesionSizeVoxels(:,1) = 0;
 
 tmp = data.Properties.VariableNames;
-% data.Properties.VariableNames = {'Age'	'Sex'	'Race'	'DaysPostStroke'	'LesionSize'	'Total GMV'	'Left GMV'	'Right GMV' 'Total WMV'	'Left WMV'	'Right WMV'   'GMSym'	'WMSym' 'WAB Total' 'Spontaneous'  'Comprehension'  'Repetition'  'Naming'};
 data2.Properties.VariableNames = {'Age'	'Sex'	'Race'	'DaysPostStroke'	'LesionSize'	'Total GMV'	'Left GMV'	'Right GMV' 'Total WMV'	'Left WMV'	'Right WMV'   'GMSym'	'WMSym' 'WAB Total' 'Spontaneous'  'Comprehension'  'Repetition'  'Naming'};
 
 clear r p r2 p2 rMat pMat txtClr txt drMat dpMat dr dr2 dp dp2
-% dataCleanX = table2array(data(:,6:end-5));
-% dataCleanY = table2array(data(:,6+8:end));
-% dataDe = table2array(data(:,1:3));
-
 data2CleanX = table2array(data2(:,6:end-5));
 labX = data2.Properties.VariableNames(6:end-5);
 data2CleanY = table2array(data2(:,6+8:end));
@@ -204,9 +189,6 @@ dataDe2(idx,:) = [];
 
 [r,p] = partialcorr(data2CleanX,data2CleanY,dataDe2,'rows','pairwise');
 p = p/2;
-
-% rMat = combMats(r,r2,[]);
-% pMat = combMats(p,p2,0);
 
 for i = 1:size(data2CleanX,2)
     for j = 1:size(data2CleanY,2)
@@ -274,10 +256,6 @@ end
 % end
 
 % alternative is to use colorbars -- rows = cool, cols = summer
- parts = quickScatter(dataXCleanRes(:,1),dataYCleanRes(:,j),'cmap',clrs(1,:),'newFig',false,'scatLinWidth',2,'markSz',150,'bounds',{'functional','on'},...
-                'markerAlpha',0.4,'shadedAlpha',0.9,'colorIndex',2,'perfectY',false,'xlab','none','ylab','none','markFill',true,'annot',false,'trendLineWidth',4,...
-                'box',true,'xlab','x','ylab','y','fontSizeNames',6,'fontSize',6,'patchTop',true,'withHist',true);
-
 [t,parts,parts2,h,h2,annot] = correlogram(dataXCleanRes,dataYCleanRes,'clrs',[c1; c2; c3],'histLine',true,'txt',tmpTxt,'txtClr',tmpTxtClr,'saveFig',false,'lblsX',labX,'lblsY',labY,...
     'newFig',false,'scatLinWidth',2,'markSz',150,'bounds',{'functional','on'},...
     'markerAlpha',0.4,'shadedAlpha',0.9,'markFill',true,'trendLineWidth',4,...
