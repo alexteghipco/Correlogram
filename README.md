@@ -1,5 +1,7 @@
 # Creating Correlograms (work in progress)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7586736.svg)](https://doi.org/10.5281/zenodo.7586736)
+
 Details and better documentation forthcoming...this matlab package creates correlograms for symmetric and asymmetric correlation matrices.
 
 Here is an example where the upper triangle shows data for healthy controls and the lower triangle shows data for stroke patients. Note, matlab does not internally support scatterplots with trendlines/CIs, error bars around samples on a scatterplot, histogram 'patches' or differing upper/lower triangles in scatterplots and/or scatterplot matrices. correlogram.m and quickScatter.m support combining these elements in one plot. Note also the consistent color schemes between lower and upper tiangles with some deviation in color to distinguish the two sets of data.
