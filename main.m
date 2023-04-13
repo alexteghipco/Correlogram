@@ -1,8 +1,8 @@
 %% Example for using correlogram...note we will use the PDC toolbox (https://github.com/alexteghipco/partialDistanceCorrelation)
 
 %% Load in data
-data = readtable('LockedCerebellumData_healthy.csv');
-data2 = readtable('LockedCerebellumData_stroke.csv');
+data = readtable('/Users/alex/Documents/cereb/LockedCerebellumData_healthy.csv');
+data2 = readtable('/Users/alex/Documents/cereb/LockedCerebellumData_stroke.csv');
 
 data = data(:,[3 4 5 19 20 75 76 77 107 108 109]);
 data2 = data2(:,[3 4 5 19 20 75 76 77 107 108 109]);
@@ -82,10 +82,26 @@ end
 tmpTxt = reshape(txt,[size(data,2),size(data,2)]);
 tmpTxtClr = reshape(txtClr,[size(data,2),size(data,2)]);
 
+% get two-sample t-test p-values and cohen's d measures to add to the diagonal histograms
+for i = 1:size(data,2)
+    [~,ttestP(i,1),~,stats] = ttest2(table2array(data(:,i)),table2array(data2(:,i)));
+    
+    s1 = ((numel(table2array(data(:,i)))-1)*nanvar(table2array(data(:,i))));
+    s2 = ((numel(table2array(data2(:,i)))-1)*nanvar(table2array(data2(:,i))));
+    coD(i,1) = (nanmean(table2array(data(:,i)))-nanmean(table2array(data2(:,i)))) / (sqrt((s1 + s2) / (numel(table2array(data(:,i))) + numel(table2array(data2(:,i))) - 2)));        % Cohen's d (for independent samples)
+end
+coD = abs(coD); % for simplicity but feel free to not take abs
+id = find(eye(size(data,2)) == 1); % identify indices of diagonal on correlogram
+tmpTxt(id) = strcat(strcat('d=', arrayfun(@num2str, coD, 'UniformOutput', 0)),strcat(',p<',arrayfun(@num2str, ttestP, 'UniformOutput', 0))); % replace the placeholder correlation values with ttest/cohens d results
+id1 = find(ttestP < 0.05); % p < 0.05 on ttest will be highlighted in red
+id2 = find(ttestP >= 0.05); % black will signal insigificance
+tmpTxtClr(id(id1)) = {[1 0 0]};
+tmpTxtClr(id(id2)) = {[0 0 0]};
+
 [t,parts,parts2,h,h2] = correlogram(data,data2,'clrs',[c1; c2; c3],'histLine',true,'txt',tmpTxt,'txtClr',tmpTxtClr,'saveFig',false,'lblsX',data2.Properties.VariableNames,'lblsY',[],...
     'newFig',false,'scatLinWidth',2,'markSz',150,'bounds',{'functional','on'},...
     'markerAlpha',0.4,'shadedAlpha',0.9,'markFill',true,'trendLineWidth',4,...
-    'box',true,'fontSizeNames',8,'fontSize',8);
+    'box',true,'fontSizeNames',8,'fontSize',8,'plotDiagTxt',true);
 
 
 %% now repeat with partial correlations...

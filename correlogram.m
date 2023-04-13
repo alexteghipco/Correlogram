@@ -24,7 +24,7 @@ opts = struct('clrs',[],'bounds',{{'functional','off'}},'txt',[],'txtClr',[],...
     'err',[],'trendLineWidth',5,'histLine',true,'saveFig',true,'lblsX',[],'lblsY',[],...
     'fontSizeNames',8,'fontSize',8,'scatLinWidth',2,...
     'markerAlpha',0.4,'shadedAlpha',0.9,'excludeExtremes',2,'pointNamesColor','consistent','newFig',true,'xlab',[],'ylab',[],'markFill',true,...
-    'markSz',200,'box','on','patchTop',false,'histAlph',0);
+    'markSz',200,'box','on','patchTop',false,'histAlph',0,'plotDiagTxt',false);
 optsNm = fieldnames(opts);
 
 % Check inputs
@@ -240,6 +240,11 @@ for i = 1:n
                 %xlabel(data2(:,i).Properties.VariableNames{1},'Position',[40 -125])
                 ylabel('Density')
                 set(gca,'FontSize',opts.fontSizeNames+opts.fontSize)
+                
+                if opts.plotDiagTxt
+                   annot{i,j} = annotation('textbox','String',opts.txt{i,j},'FitBoxToText','on','FontSize',opts.fontSizeNames+opts.fontSize,'EdgeColor','none','Color',opts.txtClr{i,j},'Position',[t.Children(1).Position(1)+0.021 t.Children(1).Position(2)+0.014 t.Children(1).Position(3) t.Children(1).Position(4)],'FontAngle','italic','HorizontalAlignment','right'); 
+                   annot{i,j}.Position = [t.Children(1).Position(1)+0.003 t.Children(1).Position(2)+0.0145 t.Children(1).Position(3) t.Children(1).Position(4)];
+                end
             end
             
             if isempty(intersect(ind,dw))
@@ -389,6 +394,11 @@ for i = 1:n
                     set(gca,'TickLength',[0.02 0.02]);
                     set(gca,'FontSize',opts.fontSizeNames+opts.fontSize)
                     pbaspect([1 2 1])
+                end
+                
+                if opts.plotDiagTxt
+                    annot{i,j} = annotation('textbox','String',opts.txt{j,i},'FitBoxToText','on','FontSize',opts.fontSizeNames+opts.fontSize,'EdgeColor','none','Color',opts.txtClr{j,i},'Position',[t.Children(1).Position(1)+0.021 t.Children(1).Position(2)+0.014 t.Children(1).Position(3) t.Children(1).Position(4)],'FontAngle','italic','HorizontalAlignment','right');
+                    annot{i,j}.Position = [t.Children(1).Position(1) t.Children(1).Position(2)+0.0145 t.Children(1).Position(3) t.Children(1).Position(4)];
                 end
             end
             
