@@ -14,8 +14,11 @@ Here is an example where the upper triangle shows data for healthy controls and 
 Here is another example for a rectengular matrix. Here, we pull out the histograms and place them at the edges of the correlogram. Correlogram interpolates between 3 colors to make a stark colormap. It also creates 2D colormaps by interpolating between two 1D colormaps, like shown in the plots below.
 
 
-<img align="center" width="1000" height="850" src="https://i.imgur.com/zzG0Ama.png">
+<img align="center" width="1400" height="650" src="https://i.imgur.com/zzG0Ama.png">
 <br/>
 <br/>
 
 See main.m for some examples of usage (note, this code is just how I've used Correlogram.m for some projects but may be helpful for understanding how to organize your data) 
+
+Papers that have used this package (please consider citing if you use this):
+Newman-Norlund, R. D., Gibson, M., Johnson, L., Teghipco, A., Rorden, C., Bonilha, L., & Fridriksson, J. Cerebellar Atrophy and Language Processing in Chronic Left-Hemisphere Stroke. Neurobiology of Language, 1-53.
